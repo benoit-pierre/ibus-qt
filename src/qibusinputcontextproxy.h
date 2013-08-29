@@ -126,6 +126,7 @@ Q_SIGNALS: // SIGNALS
     void Disabled();
     void Enabled();
     void ForwardKeyEvent(uint keyval, uint keycode, uint state);
+    void DeleteSurroundingText(int offset, uint nchars);
     void HideAuxiliaryText();
     void HideLookupTable();
     void HidePreeditText();

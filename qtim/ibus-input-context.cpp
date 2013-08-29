@@ -556,6 +556,8 @@ IBusInputContext::createInputContext (void)
             this, SLOT (slotShowPreeditText (void)));
     connect (m_context, SIGNAL (hidePreeditText (void)),
             this, SLOT (slotHidePreeditText (void)));
+    connect (m_context, SIGNAL (deleteSurroundingText (int, uint)),
+            this, SLOT (slotDeleteSurroundingText (int, uint)));
 
     if (m_has_focus) {
         m_context->focusIn ();
@@ -791,3 +793,13 @@ IBusInputContext::slotDisconnected (void)
     displayPreeditText (m_preedit, m_preedit_cursor_pos, false);
     deleteInputContext ();
 }
+
+void
+IBusInputContext::slotDeleteSurroundingText (int offset, uint nchars)
+{
+    QInputMethodEvent event;
+    event.setCommitString ("", offset, nchars);
+    sendEvent(event);
+    update ();
+}
+
