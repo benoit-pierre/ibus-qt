@@ -797,9 +797,22 @@ IBusInputContext::slotDisconnected (void)
 void
 IBusInputContext::slotDeleteSurroundingText (int offset, uint nchars)
 {
+    QWidget *widget = focusWidget();
+    if (widget == NULL)
+        return;
+
+    int cursor = widget->inputMethodQuery(Qt::ImCursorPosition).toInt();
+
+    cursor += offset;
+    if (cursor < 0)
+    {
+        offset += -cursor;
+        nchars += cursor;
+    }
+
     QInputMethodEvent event;
     event.setCommitString ("", offset, nchars);
-    sendEvent(event);
+    sendEvent (event);
     update ();
 }
 
